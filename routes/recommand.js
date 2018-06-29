@@ -83,10 +83,10 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     let data = 'ffconcat version 1.0\n';
     let i = 0;
     for(; i < photoCnt - 1; i++) {
-        data += 'file ' + 'image0' + i + '.jpg\n';
+        data += 'file' + ' image0' + i + '.jpg\n';
         data += 'duration ' + 5 + '\n';
     }
-    data += 'file' + 'image0' + i + '.jpg\n';
+    data += 'file' + ' image0' + i + '.jpg\n';
     console.log("in.ffconcat: ", data);
     fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
