@@ -13,11 +13,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/music', function (req, res, next) {
     let time = new Date();
-    let photoData = req.body;
-    let photoSource = {};
-    photoData.forEach((val, index) => {
-        photoSource[val.description] = val.score;
-    });
+    let photoSource = req.body;
 
     let psKeyArr = Object.keys(photoSource);
     let resultMapObj = {};
@@ -34,7 +30,7 @@ router.post('/music', function (req, res, next) {
         console.log("POST /recommand/music :" + "resultMapObj: ", resultMapObj);
         let top = topkObj(resultMapObj);
 
-
+        res.json(top);
     });
 });
 

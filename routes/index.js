@@ -44,7 +44,7 @@ router.post('/uploads/photos',
     for(let i = 0; i < req.files.length; i++) {
         let file = req.files[i];
         let p = new Promise((resolve, reject) => {
-            fs.rename(file.path+'/'+file.filename, file.path+'/image0'+i+'.jpg', function(err) {
+            fs.rename(file.path, file.destination+'/image0'+i+'.jpg', function(err) {
                 if(err) reject(err);
                 else resolve(true);
             })
@@ -52,7 +52,8 @@ router.post('/uploads/photos',
         promiseAll.push(p);
     }
 
-    Promise.all(promiseAll, function(data) {
+    Promise.all(promiseAll)
+        .then(function(data) {
         console.log("POST /uploads/photos: ", data);
         res.send('ok');
     })
