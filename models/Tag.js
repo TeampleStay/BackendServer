@@ -6,8 +6,8 @@ const TagSchema = new mongoClient.Schema({
         required: true
     },
     soundTitle: {
-        type: [Schema.Types.ObjectId]
+        type: [mongoClient.Schema.Types.ObjectId]
     }
 });
 
-module.exports = mongoClient.model('tags', SoundSchema);
+module.exports = mongoClient.model('tags', TagSchema);
