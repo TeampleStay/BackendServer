@@ -35,11 +35,12 @@ router.get('/uploads/:filename', function(req, res, next) {
     res.download(path.join(__dirname, '../uploads/', req.params.filename))
 });
 
-router.post('/uploads/photos',
-    upload.array('photos', 7), function(req, res, next) {
+router.post('/upload/photos',
+    upload.array(), function(req, res, next) {
     let time = Date.now();
     let workspace = path.join(__dirname, '/uploads');
     let promiseAll = [];
+    console.log(req.files);
 
     for(let i = 0; i < req.files.length; i++) {
         let file = req.files[i];
