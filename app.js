@@ -12,6 +12,7 @@ const mongoClient = require('./modules/mongooseHandler');
 mongoClient.connect();
 
 const indexRouter = require('./routes/index');
+const recommandRouter = require('./routes/recommand');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/recommand', recommandRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
