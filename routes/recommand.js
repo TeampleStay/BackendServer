@@ -37,7 +37,7 @@ router.post('/music', function (req, res, next) {
             if (file === null)
                 res.send("no file");
             else
-                res.download(file);
+                res.send(file);
         })
     });
 });
@@ -89,18 +89,21 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     data = 'file' + workDir + '/image0' + i + '.png\n';
     fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
-
+        let query = "";
         if(topAudioList[0] === undefined) {
-            exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ '1530260870330Get_Outside (mp3cut.net).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
-                console.log("Stdout: ", stdout);
-                callback(workDir +'/'+'out.mp4');
-            })
+            query = 'ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ '1530260870330Get_Outside (mp3cut.net).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         } else {
-            exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
-                console.log("Stdout: ", stdout);
-                callback(workDir +'/'+'out.mp4');
-            })
+            query = 'ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         }
+        exec(query, function(err, stdout, stderr) {
+            if(err) {
+                console.log("ffmpeg error: ", err);
+                callback(null);
+            } else {
+                console.log("ffmpeg excute");
+                callback("http://52.78.159.170:3000/upload" +'/'+'out.mp4');
+            }
+        })
     });
 }
 
