@@ -7,6 +7,10 @@ const logger = require('morgan');
 // cors
 const cors = require('cors');
 
+// mongoose
+const mongoClient = require('./modules/mongooseHandler');
+mongoClient.connect();
+
 const indexRouter = require('./routes/index');
 
 const app = express();

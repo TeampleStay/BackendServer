@@ -18,3 +18,5 @@ const SoundSchema = new mongoClient.Schema({
         required: true
     }
 });
+
+module.exports = mongoClient.model('sounds', SoundSchema);
