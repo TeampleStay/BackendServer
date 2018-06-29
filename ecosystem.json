@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "name": "jangbogo",
+    "name": "TeampleStay",
     "script": "bin/www",
     "watch": false,
     "env": {
