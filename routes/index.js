@@ -32,8 +32,7 @@ router.get('/upload', function(req, res, next) {
 
 
 router.get('/uploads/:filename', function(req, res, next) {
-    let sound = fs.createReadStream(path.join(__dirname, '../uploads/', req.params.filename));
-    sound.pipe(res);
+    res.download(path.join(__dirname, '../uploads/', req.params.filename))
 });
 
 router.post('/upload', upload.fields([{
