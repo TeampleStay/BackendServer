@@ -8,7 +8,7 @@ const soundSchema = require('../models/Sound');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destinamtion: function(req, file, cb) {
-        cb(null, 'uploads');
+        cb(null, '/uploads');
     },
     filename: function(req, file, cb) {
         let filename = req.body.filename;
