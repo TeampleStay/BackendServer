@@ -36,7 +36,7 @@ router.get('/uploads/:filename', function(req, res, next) {
 });
 
 router.post('/upload/photos',
-    upload.array(), function(req, res, next) {
+    upload.any(), function(req, res, next) {
     let time = Date.now();
     let workspace = path.join(__dirname, '/uploads');
     let promiseAll = [];
