@@ -34,7 +34,7 @@ router.post('/music', function (req, res, next) {
 
         let photoCnt = photoSource['cnt'];
         execffmpeg(top, photoCnt, function(file) {
-            if (file == null)
+            if (file === null)
                 res.send("no file");
             else
                 res.download(file);
@@ -87,11 +87,11 @@ function execffmpeg(topAudioList, photoCnt, callback) {
         data += 'duration ' + 5 + '\n';
     }
     data = 'file' + workDir + '/image0' + i + '.png\n';
-    fs.writeFile(workDir + '/in.ffmpeg', data, function(err) {
+    fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
 
-        if(topAudioList[0].filename == null) {
-            callback("");
+        if(topAudioList[0].filename === undefined) {
+            callback(null);
         } else {
             exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
                 console.log("Stdout: ", stdout);
