@@ -83,17 +83,18 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     let data = 'ffconcat version 1.0\n';
     let i = 0;
     for(; i < photoCnt - 1; i++) {
-        data += 'file' + workDir + '/image0' + i + '.png\n';
+        data += 'file' + workDir + '/image0' + i + '.jpg\n';
         data += 'duration ' + 5 + '\n';
     }
-    data = 'file' + workDir + '/image0' + i + '.png\n';
+    data = 'file' + workDir + '/image0' + i + '.jpg\n';
+    console.log("in.ffconcat: ", data);
     fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
         let query = "";
         if(topAudioList[0] === undefined) {
-            query = 'ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ '1530260870330Get_Outside (mp3cut.net).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
+            query = 'ffmpeg -i in.ffconcat -i ' + workDir +'/'+ '1530260870330Get_Outside (mp3cut.net).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         } else {
-            query = 'ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
+            query = 'ffmpeg -i in.ffconcat -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         }
         exec(query, function(err, stdout, stderr) {
             if(err) {
