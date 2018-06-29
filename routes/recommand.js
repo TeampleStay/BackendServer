@@ -99,7 +99,7 @@ function execffmpeg(topAudioList, photoCnt, callback) {
                 query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i \'' + workDir +'/'+ topAudioList[0].filename + '\' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
             }
             console.log("query: ", query);
-            let cmd = exec(query + ";y;", function(err, stdout, stderr) {
+            let cmd = exec(query, function(err, stdout, stderr) {
                 if(err) {
                     console.log("ffmpeg error: ", err);
                     callback(null);
@@ -109,7 +109,6 @@ function execffmpeg(topAudioList, photoCnt, callback) {
                     callback("http://52.78.159.170:3000/uploads" +'/'+'out.mp4');
                 }
             });
-            cmd.stdin.write("yes");
         }
     });
 }
