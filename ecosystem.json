@@ -1,0 +1,10 @@
+{
+  "apps": [{
+    "name": "jangbogo",
+    "script": "bin/www",
+    "watch": false,
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}
