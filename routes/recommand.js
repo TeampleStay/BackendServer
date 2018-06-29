@@ -21,10 +21,9 @@ router.post('/music', function (req, res, next) {
 
     Promise.all(promiseAllArr)
         .then(function(val) {
-            console.log(time, ' POST /recommand/music : Promise ', val);
-            console.log("resultMapObj: ", resultMapObj);
+            console.log(' POST /recommand/music : Promise ', val, " -  ", time);
+            console.log("POST /recommand/music :" + "resultMapObj: ", resultMapObj);
             let top = topkObj(resultMapObj);
-
             res.json(top);
         });
 });
@@ -52,7 +51,6 @@ function findTagandCalRank(_tagName, resultMapObj) {
                     resolve('null');
                 else {
                     let soundArr = tag[0].soundArr;
-                    console.log(soundArr);
                     for(let i = 0; i < soundArr.length; i++) {
                         let filename = soundArr[i].filename;
 
