@@ -9,7 +9,12 @@ const TagSchema = require('../models/Tag');
 
 router.post('/music', function (req, res, next) {
     let time = new Date();
-    let photoSource = req.body;
+    let photoData = req.body;
+    let photoSource = {};
+    photoData.forEach((val, index) => {
+        photoSource[val.description] = val.score;
+    });
+
     let psKeyArr = Object.keys(photoSource);
     let resultMapObj = {};
 
