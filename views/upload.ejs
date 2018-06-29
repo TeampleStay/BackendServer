@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>업로드</title>
+</head>
+<body>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <p class="line">
+        파일:
+        <input type="file" name="soundFile">
+    </p>
+    <p class="line">
+        파일 정보:
+        <input type="text" name="specific">
+    </p>
+    <input type="submit" value="전송">
+</form>
+</body>
+</html>
