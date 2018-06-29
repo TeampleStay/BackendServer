@@ -107,7 +107,7 @@ function execffmpeg(topAudioList, photoCnt, callback) {
                 } else {
                     console.log("ffmpeg excute");
                     console.log("stdout: ", stdout);
-                    callback("http://52.78.159.170:3000/uploads" +'/'+'out.mp4');
+                    callback("http://52.78.159.170:3000/uploads" +'/'+ outfile);
                 }
             });
         }
