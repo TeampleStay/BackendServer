@@ -75,7 +75,7 @@ function findTagandCalRank(_tagName, resultMapObj) {
 }
 
 function execffmpeg(topAudioList, photoCnt, callback) {
-    let workDir = path.join(__dirname, './uploads');
+    let workDir = path.join(__dirname, '../uploads');
 
     let data = 'ffconcat version 1.0\n';
     let i = 0;
