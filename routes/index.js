@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const fs = require('fs');
 
 // mongoose
 const soundSchema = require('../models/Sound');
@@ -27,6 +28,12 @@ router.get('/', function(req, res, next) {
 
 router.get('/upload', function(req, res, next) {
    res.render('upload');
+});
+
+
+router.get('/uploads/:filename', function(req, res, next) {
+    let sound = fs.createReadStream(path.join(__dirname, '../uploads/', req.params.filename));
+    sound.pipe(res);
 });
 
 router.post('/upload', upload.fields([{
