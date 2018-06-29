@@ -35,7 +35,7 @@ router.post('/music', function (req, res, next) {
         let photoCnt = photoSource['cnt'];
         execffmpeg(top, photoCnt, function(file) {
             if (file === null)
-                res.send("no file");
+                res.status(400).send("no file");
             else
                 res.send(file);
         })
@@ -94,7 +94,7 @@ function execffmpeg(topAudioList, photoCnt, callback) {
         if(topAudioList[0] === undefined) {
             query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i ' + workDir +'/'+ '1530243265582Get_Outside\\ \\(mp3cut.net\\).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         } else {
-            query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
+            query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i \'' + workDir +'/'+ topAudioList[0].filename + '\' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
         }
         exec(query, function(err, stdout, stderr) {
             if(err) {
