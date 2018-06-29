@@ -91,7 +91,10 @@ function execffmpeg(topAudioList, photoCnt, callback) {
         if (err) console.log("execffmpeg: ", err);
 
         if(topAudioList[0].filename === undefined) {
-            callback(null);
+            exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ '1530260870330Get_Outside (mp3cut.net).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
+                console.log("Stdout: ", stdout);
+                callback(workDir +'/'+'out.mp4');
+            })
         } else {
             exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
                 console.log("Stdout: ", stdout);
