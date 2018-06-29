@@ -22,7 +22,7 @@ router.post('/music', function (req, res, next) {
     Promise.all(promiseAllArr)
         .then(function(val) {
             console.log(time, ' POST /recommand/music : Promise ', val);
-            console.log(resultMapObj);
+            console.log("resultMapObj: ", resultMapObj);
             let top = topkObj(resultMapObj);
 
             res.json(top);
@@ -33,7 +33,7 @@ function topkObj(obj, k) {
     let top = [];
 
     Object.keys(obj).forEach((v, i) => {
-        top.push({key: v, value: Object.values(obj)[i]})
+        top.push({filename: v, value: Object.values(obj)[i]})
     });
 
     top.sort(function(a, b) {
@@ -48,12 +48,15 @@ function findTagandCalRank(_tagName, resultMapObj) {
         TagSchema.find({tagName: _tagName}, (err, tag) => {
             if(err) reject(err);
             else {
-                if(tag == null)
+                if(tag.length == 0 || tag == null)
                     resolve('null');
                 else {
-                    for(let i = 0; i < tag[0].soundTitle.length; i++) {
-                        let v = tag[0].soundTitle[i];
-                        resultMapObj[v] = (resultMapObj[v] === undefined) ? 1 : ++resultMapObj[v];
+                    let soundArr = tag[0].soundArr;
+                    console.log(soundArr);
+                    for(let i = 0; i < soundArr.length; i++) {
+                        let filename = soundArr[i].filename;
+
+                        resultMapObj[filename] = (resultMapObj[filename] === undefined) ? 1 : ++resultMapObj[filename];
                     }
                     resolve('finish');
                 }

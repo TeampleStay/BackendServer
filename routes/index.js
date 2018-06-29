@@ -64,7 +64,7 @@ router.post('/upload',
         Promise.all(promiseAllArr)
             .then(function(val) {
                 console.log(time, 'POST /uploads : Promise result ', val);
-                res.send("success", val);
+                res.send(val);
             });
     })
 });
@@ -80,10 +80,10 @@ function findTagNameOrCreate(_tagName, soundObj) {
                 if(tag == null) {
                     TagSchema.create({
                         tagName: _tagName,
-                        soundTitle: [soundObj._id]
+                        soundArr: [soundObj]
                     }).then(() => {
                         resolve({
-                            id: soundObj._id,
+                            soundId: soundObj._id,
                             tag: _tagName,
                             data: "create Tag and update"
                         });
@@ -91,10 +91,12 @@ function findTagNameOrCreate(_tagName, soundObj) {
                 } else {
                     TagSchema.update(
                         {_id: tag._id},
-                        { $push: {soundTitle: soundObj._id}},
+                        {$push: {
+                            soundArr: soundObj
+                            }},
                     ).then(() => {
                         resolve({
-                            id: soundObj._id,
+                            soundId: soundObj._id,
                             tag: _tagName,
                             data: "Update in Tag"
                         });

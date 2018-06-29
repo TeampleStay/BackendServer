@@ -5,8 +5,8 @@ const TagSchema = new mongoClient.Schema({
         type: String,
         required: true
     },
-    soundTitle: {
-        type: [mongoClient.Schema.Types.ObjectId]
+    soundArr: {
+        type: Array, default: []
     }
 });
 
