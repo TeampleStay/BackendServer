@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '../uploads'));
     },
     filename: function(req, file, cb) {
-        cb(null, Date.now()+ file.originalname);
+        cb(null, file.originalname);
     }
 });
 const upload = multer({
@@ -33,6 +33,29 @@ router.get('/upload', function(req, res, next) {
 
 router.get('/uploads/:filename', function(req, res, next) {
     res.download(path.join(__dirname, '../uploads/', req.params.filename))
+});
+
+router.post('/uploads/photos',
+    upload.array('photos', 7), function(req, res, next) {
+    let time = Date.now();
+    let workspace = path.join(__dirname, '/uploads');
+    let promiseAll = [];
+
+    for(let i = 0; i < req.files.length; i++) {
+        let file = req.files[i];
+        let p = new Promise((resolve, reject) => {
+            fs.rename(file.path+'/'+file.filename, file.path+'/image0'+i+'.jpg', function(err) {
+                if(err) reject(err);
+                else resolve(true);
+            })
+        });
+        promiseAll.push(p);
+    }
+
+    Promise.all(promiseAll, function(data) {
+        console.log("POST /uploads/photos: ", data);
+        res.send('ok');
+    })
 });
 
 router.post('/upload',
