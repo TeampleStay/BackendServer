@@ -98,7 +98,8 @@ function execffmpeg(topAudioList, photoCnt, callback) {
             } else {
                 query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i \'' + workDir +'/'+ topAudioList[0].filename + '\' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
             }
-            exec(query, function(err, stdout, stderr) {
+            console.log("query: ", query);
+            exec(query + ";y;", function(err, stdout, stderr) {
                 if(err) {
                     console.log("ffmpeg error: ", err);
                     callback(null);
