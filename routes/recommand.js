@@ -34,7 +34,10 @@ router.post('/music', function (req, res, next) {
 
         let photoCnt = photoSource['cnt'];
         execffmpeg(top, photoCnt, function(file) {
-            res.download(file);
+            if (file == null)
+                res.send("no file");
+            else
+                res.download(file);
         })
     });
 });
@@ -86,12 +89,15 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     data = 'file' + workDir + '/image0' + i + '.png\n';
     fs.writeFile(workDir + '/in.ffmpeg', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
-        console.log('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4');
 
-        exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
-            console.log("Stdout: ", stdout);
-            callback(workDir +'/'+'out.mp4');
-        })
+        if(topAudioList[0].filename == null) {
+            callback("");
+        } else {
+            exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
+                console.log("Stdout: ", stdout);
+                callback(workDir +'/'+'out.mp4');
+            })
+        }
     });
 }
 
