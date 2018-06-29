@@ -90,22 +90,25 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     console.log("in.ffconcat: ", data);
     fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
-        let query = "";
-        if(topAudioList[0] === undefined) {
-            query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i ' + workDir +'/'+ '1530243265582Get_Outside\\ \\(mp3cut.net\\).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
-        } else {
-            query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i \'' + workDir +'/'+ topAudioList[0].filename + '\' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
-        }
-        exec(query, function(err, stdout, stderr) {
-            if(err) {
-                console.log("ffmpeg error: ", err);
-                callback(null);
+        else {
+            console.log("write data in in.ffconcat");
+            let query = "";
+            if(topAudioList[0] === undefined) {
+                query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i ' + workDir +'/'+ '1530243265582Get_Outside\\ \\(mp3cut.net\\).mp3' + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
             } else {
-                console.log("ffmpeg excute");
-                console.log("stdout: ", stdout);
-                callback("http://52.78.159.170:3000/uploads" +'/'+'out.mp4');
+                query = 'ffmpeg -i ' + workDir + '/in.ffconcat -i \'' + workDir +'/'+ topAudioList[0].filename + '\' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4';
             }
-        })
+            exec(query, function(err, stdout, stderr) {
+                if(err) {
+                    console.log("ffmpeg error: ", err);
+                    callback(null);
+                } else {
+                    console.log("ffmpeg excute");
+                    console.log("stdout: ", stdout);
+                    callback("http://52.78.159.170:3000/uploads" +'/'+'out.mp4');
+                }
+            })
+        }
     });
 }
 
