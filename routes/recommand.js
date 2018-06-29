@@ -26,11 +26,16 @@ router.post('/music', function (req, res, next) {
 
     Promise.all(promiseAllArr)
     .then(function(val) {
-        console.log(' POST /recommand/music : Promise ', val, " -  ", time);
+        console.log('POST /recommand/music : Promise ', val, " -  ", time);
         console.log("POST /recommand/music :" + "resultMapObj: ", resultMapObj);
         let top = topkObj(resultMapObj);
 
-        res.json(top);
+        //res.json(top);
+
+        let photoCnt = photoSource['cnt'];
+        execffmpeg(top, photoCnt, function(file) {
+            res.download(file);
+        })
     });
 });
 
@@ -69,23 +74,24 @@ function findTagandCalRank(_tagName, resultMapObj) {
     })
 }
 
-function execffmpeg(photoStat) {
+function execffmpeg(topAudioList, photoCnt, callback) {
     let workDir = path.join(__dirname, './uploads');
-    // TODO
-    // fs.rename('');
 
-    let ffconcat = fs.createWriteStream('in.ffmpeg');
+    let data = 'ffconcat version 1.0\n';
+    let i = 0;
+    for(; i < photoCnt - 1; i++) {
+        data += 'file' + workDir + '/image0' + i + '.png\n';
+        data += 'duration ' + 5 + '\n';
+    }
+    data = 'file' + workDir + '/image0' + i + '.png\n';
+    fs.writeFile(workDir + '/in.ffmpeg', data, function(err) {
+        if (err) console.log("execffmpeg: ", err);
 
-    ffconcat.write('ffconcat version 1.0\n');
-    ffconcat.write('file' + workDir + '/image01.png\n');
-    ffconcat.write('duration ' +  + '\n');
-    ffconcat.write('file' + workDir + '/image01.png\n');
-    ffconcat.write('duration ' +  + '\n');
-    ffconcat.end();
-    exec('ffmpeg -i in.ffmpeg -i ./' + top[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
-        console.log("Stdout: ", stdout);
-        res.send('ok');
-    })
+        exec('ffmpeg -i in.ffmpeg -i ' + workDir +'/'+ topAudioList[0].filename + ' -c:a copy -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" out.mp4', function(err, stdout, stderr) {
+            console.log("Stdout: ", stdout);
+            callback(workDir +'/'+'out.mp4');
+        })
+    });
 }
 
 module.exports = router;
