@@ -18,6 +18,8 @@ router.post('/music', function (req, res, next) {
     let psKeyArr = Object.keys(photoSource);
     let resultMapObj = {};
 
+    console.log("Photo Tag: ", psKeyArr);
+
     let cnt = 0;
     let promiseAllArr = [];
     psKeyArr.forEach((v, i) => {
