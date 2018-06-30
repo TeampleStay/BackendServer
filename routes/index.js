@@ -47,7 +47,7 @@ router.post('/upload/photos',
         let p = new Promise((resolve, reject) => {
             fs.rename(file.path, file.destination+'/image0'+i+'.jpg', function(err) {
                 if(err) reject(err);
-                else resolve(true);
+                else resolve('/image0'+i+'.jpg');
             })
         });
         promiseAll.push(p);
