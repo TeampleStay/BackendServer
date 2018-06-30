@@ -93,7 +93,7 @@ function execffmpeg(topAudioList, photoCnt, callback) {
     fs.writeFile(workDir + '/in.ffconcat', data, function(err) {
         if (err) console.log("execffmpeg: ", err);
         else {
-            console.log("write data in in.ffconcat");
+            console.log("write data in in.ffconcat : ", workDir);
             let query = "";
             let outfile = Date.now() + "out.mp4";
             if(topAudioList[0] === undefined) {
