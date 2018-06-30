@@ -67,7 +67,7 @@ router.post('/upload',
     ]), function(req, res, next) {
 
     let time = new Date();
-    let specific = req.body.specific.split(' ');
+    let specific = req.body.specific.split(',');
     let dst = req.files['soundFile'][0].path;
     let filename = req.files['soundFile'][0].filename;
     console.log("POST: /upload: " + "filename: " + filename + " dst: " + dst + " specific: " + specific);
