@@ -44,12 +44,15 @@ router.post('/upload/photos',
 
     for(let i = 0; i < req.files.length; i++) {
         let file = req.files[i];
+        console.log("file: ", file);
         let p = new Promise((resolve, reject) => {
+            console.log(file.destination, '/image0'+i+'.jpg')
             fs.rename(file.path, file.destination+'/image0'+i+'.jpg', function(err) {
                 if(err) reject(err);
-                else resolve('/image0'+i+'.jpg');
+                else resolve('image0'+i+'.jpg');
             })
         });
+        console.log("push promise");
         promiseAll.push(p);
     }
 
